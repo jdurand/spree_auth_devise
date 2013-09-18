@@ -13,13 +13,13 @@ module Spree
     before_destroy :check_completed_orders
 
     # Setup accessible (or protected) attributes for your model
-    attr_accessible :email, :password, :password_confirmation, :remember_me, :persistence_token, :login
+    # attr_accessible :email, :password, :password_confirmation, :remember_me, :persistence_token, :login
 
     users_table_name = User.table_name
     roles_table_name = Role.table_name
 
     scope :admin, lambda { includes(:spree_roles).where("#{roles_table_name}.name" => "admin") }
-    scope :registered, where("#{users_table_name}.email NOT LIKE ?", "%@example.net")
+    scope :registered, -> { where("#{users_table_name}.email NOT LIKE ?", "%@example.net") }
 
     class DestroyWithOrdersError < StandardError; end
 
@@ -45,7 +45,7 @@ module Spree
 
     def send_reset_password_instructions
       generate_reset_password_token!
-      UserMailer.reset_password_instructions(self).deliver
+      UserMailer.reset_password_instructions(self.id).deliver
     end
 
     protected
@@ -73,7 +73,7 @@ module Spree
       def self.generate_token(column)
         loop do
           token = friendly_token
-          break token unless find(:first, :conditions => { column => token })
+          break token unless where(column => token).first
         end
       end
   end
