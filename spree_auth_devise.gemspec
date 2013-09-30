@@ -20,7 +20,21 @@ Gem::Specification.new do |s|
   s.add_dependency 'spree_core', spree_version
   s.add_dependency 'spree_frontend', spree_version
   s.add_dependency 'spree_backend', spree_version
-  s.add_dependency 'devise', '~> 2.2.3'
+  s.add_dependency 'devise', '~> 2.2.5'
   s.add_dependency 'devise-encryptable', '0.1.2'
-  s.add_dependency 'cancan', '~> 1.6.7'
+  s.add_development_dependency 'rspec-rails', '~> 2.13'
+  s.add_development_dependency 'factory_girl_rails', '~> 4.2.1'
+  s.add_development_dependency 'email_spec', '~> 1.4.0'
+  s.add_development_dependency 'capybara', '~> 2.1.0'
+  s.add_development_dependency 'database_cleaner', '~> 1.0.1'
+  s.add_development_dependency 'selenium-webdriver', '~> 2.35.0'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'launchy'
+  s.add_development_dependency 'pry'
+  s.add_development_dependency 'debugger'
+  s.add_development_dependency 'sass-rails'
+  s.add_development_dependency 'coffee-rails'
+  s.add_development_dependency 'pg'
+  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'mysql2'
 end
