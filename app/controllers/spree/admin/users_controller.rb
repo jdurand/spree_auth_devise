@@ -5,7 +5,7 @@ module Spree
         rescue_from "#{Spree.user_class}::DestroyWithOrdersError".constantize, :with => :user_destroy_with_orders_error
       end
       
-      update.after :sign_in_if_change_own_password
+      after_filter :sign_in_if_change_own_password, :only => :update
 
       # http://spreecommerce.com/blog/2010/11/02/json-hijacking-vulnerability/
       before_filter :check_json_authenticity, :only => :index
@@ -47,11 +47,6 @@ module Spree
             @user.spree_roles = roles.reject(&:blank?).collect{|r| Spree::Role.find(r)}
           end
 
-          if params[:user][:password].present?
-            # this logic needed b/c devise wants to log us out after password changes
-            user = Spree.user_class.reset_password_by_token(params[:user])
-            sign_in(@user, :event => :authentication, :bypass => !Spree::Auth::Config[:signout_after_password_change])
-          end
           flash.now[:success] = Spree.t(:account_updated)
           render :edit
         else
